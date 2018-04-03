@@ -97,7 +97,7 @@ var planet = {
                 window.open('../data.json', '_blank');
             }
         });*/
-        csrftoken = 12;
+        csrftoken = $.cookie("csrftoken");
         $.ajax({
             type: "POST",
             data: {
