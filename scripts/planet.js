@@ -1,16 +1,14 @@
 // JavaScript source code
 var myData = {
-    "user": {
-        "id": 0,
-        "name": "",
-        "email": "",
+    "appData": {
+        // "user_id": 0,
         "starttime": "",
         "endtime": "",
-        "lng": "en",
-        "buddy_details": "",
-        "session_id": "",
+        // "createdAt":"",
+        // "buddy_details": "",
+        // "session_id": "",
         "rightanswers": 0,
-        "wronganswers": 0
+        "wronganswers": 0,
     },
     "attempt": [
     ]
@@ -30,18 +28,19 @@ var failattempt = {
 }
 var planet = {
     start: function (lng) {
-        myData.user.id = $.cookie("user_id");
-        myData.user.name = $.cookie("name");
-        myData.user.email = $.cookie("email");
-        myData.user.buddy_details = $.cookie("user_and_buddy_ids");
-        myData.user.session_id = $.cookie("session_id");
-        myData.user.starttime = timeStamp();
-        myData.user.lng = lng;
+        myData.userId = $.cookie("user_id");
+        myData.buddyIds = $.cookie("buddy_ids");
+        // myData.appName = "Astroamer_Moon_Track";
+        // myData.user.session_id = $.cookie("session_id");
+        myData.createdAt = timeStamp();
+        myData.appData.starttime = timeStamp();
+        myData.language = lng;
         planet.save();
     },
     addAnswer: function (id, e) {
         //debugger;
         var obj = null;
+        myData.appName = "Astroamer_Moon_Track";
         for (var i = 0; i <= myData.attempt.length - 1; i++) {
             if (myData.attempt[i].qid == qid) {
                 obj = myData.attempt[i];
@@ -83,12 +82,12 @@ var planet = {
         myData = $.parseJSON($.cookie("data"));
     },
     end: function () {
-        myData.user.endtime = timeStamp();
+        myData.appData.endtime = timeStamp();
         planet.save();
     },
     updateScore: function (s) {
-        myData.user.rightanswers = s;
-        myData.user.wronganswers = 10 - s;
+        myData.appData.rightanswers = s;
+        myData.appData.wronganswers = 10 - s;
         planet.save();
         /*$.ajax({
             url: "../saveJson.php?data=" + $.cookie("data"),
@@ -101,8 +100,7 @@ var planet = {
         $.ajax({
             type: "POST",
             data: {
-                "user_data": $.cookie("data"),
-                "app_name": "policesquad",
+                "payload": $.cookie("data"),
                 'csrfmiddlewaretoken': csrftoken,
             },
             url: "/tools/logging",
@@ -123,6 +121,4 @@ function setuserdetail() { // You don't need this function, since cookie is comi
     $.cookie("user_id", "1");
     $.cookie("session_id", "qe6wydl8mflsw3fol8u92t7e0os1q4z2");
     $.cookie("user_and_buddy_ids", "1&988");
-    $.cookie("name", "John Doe");
-    $.cookie("email", "john.doe@nothing.com");
 }
