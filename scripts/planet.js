@@ -30,7 +30,7 @@ var planet = {
     start: function (lng) {
         myData.userId = $.cookie("user_id");
         myData.buddyIds = $.cookie("buddy_ids");
-        myData.appName = "Astroamer_Moon_Track";
+        myData.appName = "Planet Track";
         // myData.user.session_id = $.cookie("session_id");
         myData.createdAt = timeStamp();
         myData.appData.starttime = timeStamp();
