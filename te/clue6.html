@@ -126,8 +126,10 @@
     var mytube = 'ch4';
     var qid = 6;
     localStorage.setItem("planet-score6", '0');
+    var lng = 'te';
     $(function() {
         planet.readData();
+        planet.addQuestion('దీని అక్షం 97 డిగ్రీల వాలుతో, ఈ గ్రహం దాదాపు తన స్వంత కక్ష్యలో దొర్లుతుంది. మిథేన్ (CH4) సేకరించడానికి ఈ గ్రహాన్ని సందర్శించండి.');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('అది సరియైనది కాదు.');
                     $('.popup-small-content').html('<p>ఇక్కడ ఇంకొక ఆధారం ఉన్నది.<br>Thఈ గ్రహానికి 27 చంద్రులు మరియు 13 వలయాలు ఉన్నాయి, కానీ మీ కంటిలో ఈ గ్రహాన్ని అరుదుగా చూడగలరు.<br>మళ్లీ ప్రయత్నించండి. </p><p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>మన సౌర కుటుంబంలో ఏడవ గ్రహం యురేనస్. ఈ గ్రహానికి 27 చంద్రులు మరియు 13 వలయాలు ఉన్నాయి<br>ఇది మన కంటికి కనిపిస్తుంది కానీ చాలా వెలిసినట్లు ఉంటుంది.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>మన సౌర కుటుంబంలో ఏడవ గ్రహం యురేనస్. ఈ గ్రహానికి 27 చంద్రులు మరియు 13 వలయాలు ఉన్నాయి<br>ఇది మన కంటికి కనిపిస్తుంది కానీ చాలా వెలిసినట్లు ఉంటుంది.</p>';
@@ -179,13 +181,16 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue7.html', '_self');
             }
         });

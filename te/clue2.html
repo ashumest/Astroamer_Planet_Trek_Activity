@@ -126,8 +126,10 @@
     var mytube = 'h2so4';
     var qid = 2;
     localStorage.setItem("planet-score2", '0');
+    var lng = 'te';
     $(function() {
         planet.readData();
+        planet.addQuestion('ఈ గ్రహం తూర్పు నుండి పశ్చిమానికి భ్రమణం చేస్తుంది. పశ్చిమాన సూర్యుడు ఉదయించడం ఒక ఆసక్తికరమైన దృశ్యము! సల్ఫ్యూరిక్ ఆమ్లం (H2SO4)సేకరించడానికి గ్రహాన్ని సందర్శించండి.');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('అది సరియైనది కాదు. ');
                     $('.popup-small-content').html('<p>ఇక్కడ ఇంకొక ఆధారం ఉన్నది.<br>ఇది చంద్రుని తర్వాత రాత్రి ఆకాశంలో రెండవ ప్రకాశవంతమైన ఖగోళ వస్తువు.<br>మళ్లీ ప్రయత్నించండి.</p><p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>సరియైన జవాబు  శుక్రుడు.<br>సూర్యునికి సమీపంగా ఉన్న రెండవ గ్రహం శుక్రుడు. ఇది మన కంటికి కనిపిస్తుంది. ఇది చంద్రుని తర్వాత రాత్రి ఆకాశంలో రెండవ ప్రకాశవంతమైన ఖగోళ వస్తువు.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>సరియైన జవాబు  శుక్రుడు.<br>సూర్యునికి సమీపంగా ఉన్న రెండవ గ్రహం శుక్రుడు. ఇది మన కంటికి కనిపిస్తుంది. ఇది చంద్రుని తర్వాత రాత్రి ఆకాశంలో రెండవ ప్రకాశవంతమైన ఖగోళ వస్తువు.</p>';
@@ -179,13 +181,16 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue3.html', '_self');
             }
         });

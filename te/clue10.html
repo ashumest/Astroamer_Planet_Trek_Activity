@@ -126,8 +126,10 @@
     var mytube = 'co';
     var qid = 10;
     localStorage.setItem("planet-score10", '0');
+    var lng = 'te';
     $(function() {
         planet.readData();
+        planet.addQuestion('సూర్య కాంతి భూమిని చేరడానికి 8 నిమిషాలు తీసుకుంటుంది, కానీ ఈ గ్రహాన్ని చేరడానికి 5.3 గంటలు తీసుకుంటుంది. కార్బన్ మోనాక్సైడ్ (CO)సేకరించడానికి ఈ గ్రహాన్ని సందర్శించండి.');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('అది సరియైనది కాదు.');
                     $('.popup-small-content').html('<p>ఇక్కడ ఇంకొక ఆధారం ఉన్నది.<br>ఈ చిన్నని గ్రహం సూర్యుడి నుండి చాలా దూరంలో ఉన్నది. మళ్లీ ప్రయత్నించండి.</p><p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>ప్లూటో చిన్న గ్రహం మరియు సూర్యుడి నుండి చాలా దూరంలో (తొమ్మిదవ) గ్రహం. ఇది మన కంటికి ఎన్నడూ కనిపించదు.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.  ');
                     myhtml = '<p>ప్లూటో చిన్న గ్రహం మరియు సూర్యుడి నుండి చాలా దూరంలో (తొమ్మిదవ) గ్రహం. ఇది మన కంటికి ఎన్నడూ కనిపించదు.</p>';
@@ -179,13 +181,16 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('result.html', '_self');
             }
         });

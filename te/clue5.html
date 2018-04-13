@@ -126,8 +126,10 @@
     var mytube = 'na';
     var qid = 5;
     localStorage.setItem("planet-score5", '0');
+    var lng = 'te';
     $(function() {
         planet.readData();
+        planet.addQuestion('అన్ని గ్రహాలలో ఇది అతి చిన్నదైనప్పటికీ, దీని సాంద్రత అత్యధికంగా ఉంటుంది.సోడియం (Na)సేకరించడానికి ఈ గ్రహాన్ని సందర్శించండి.');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('అది సరియైనది కాదు.');
                     $('.popup-small-content').html('<p>ఇక్కడ ఇంకొక ఆధారం ఉన్నది.<br>ఈ గ్రహం సూర్యుడికి సమీపంగా ఉన్నది మరియు ఏదైనా ఇతర గ్రహం కన్నా వేగంగా ఉంటుంది.</p><p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>మన సౌర కుటుంబంలో అత్యంత లోపల  ఉండే గ్రహం బుధ గ్రహం, అందుకే ఇది అన్ని గ్రహాలకన్నా అతి వేగంగా చుట్టూ తిరుగుతుంది. ఇది మన కంటికి కనిపిస్తుంది, కానీ ఇది ఎప్పుడూ సూర్యుడికి సమీపంగా ఉండటం వలన, ఇది సూర్యోదయానికి ముందు లేదా సూర్యాస్తమయం తరువాత మాత్రమే కనిపిస్తుంది.  ఇది సౌర కుటుంబంలో అతి చిన్నని మరియు అన్ని గ్రహాలు కన్నా అతి తక్కువ భారం కలిగి ఉంది</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('అది సరియైనది.');
                     myhtml = '<p>మన సౌర కుటుంబంలో అత్యంత లోపల  ఉండే గ్రహం బుధ గ్రహం, అందుకే ఇది అన్ని గ్రహాలకన్నా అతి వేగంగా చుట్టూ తిరుగుతుంది. ఇది మన కంటికి కనిపిస్తుంది, కానీ ఇది ఎప్పుడూ సూర్యుడికి సమీపంగా ఉండటం వలన, ఇది సూర్యోదయానికి ముందు లేదా సూర్యాస్తమయం తరువాత మాత్రమే కనిపిస్తుంది.  ఇది సౌర కుటుంబంలో అతి చిన్నని మరియు అన్ని గ్రహాలు కన్నా అతి తక్కువ భారం కలిగి ఉంది</p>';
@@ -179,13 +181,16 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue6.html', '_self');
             }
         });

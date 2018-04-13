@@ -127,8 +127,10 @@
     var mytube = 'h';
     var qid = 3;
     localStorage.setItem("planet-score3", '0');
+    var lng = 'te';
     $(function() {
         planet.readData();
+        planet.addQuestion('ఈ వాయు మహా గోళంలో ఘన మూలం లేదు. పెద్ద ఎర్రని మచ్చ దాని వాతావరణంలో ఒక తుఫాను. హైడ్రోజన్ (H) సేకరించడానికి ఈ గ్రహాన్ని సందర్శించండి.');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -154,7 +156,7 @@
                     $('.popup-small-head').html('అది సరియైనది కాదు.');
                     $('.popup-small-content').html('<p>ఇక్కడ ఇంకొక ఆధారం ఉన్నది.<br>ఇది మన సౌర కుటుంబంలో అతి పెద్దది మరియు అతి బరువైనది. మళ్లీ ప్రయత్నించండి.</p><p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('బాగా చేసారు!  ');
                     myhtml = '<p>సూర్యుడి నుండి ఐదవ గ్రహము గురుడు.  ఇది మన కంటికి కనిపిస్తుంది. మన సౌర కుటుంబంలో ఇతర గ్రహాల కన్నా గురు గ్రహం పెద్దది మరియు బరువైనది!</p>';
@@ -162,7 +164,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -172,7 +174,7 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('బాగా చేసారు!  ');
                     myhtml = '<p>సూర్యుడి నుండి ఐదవ గ్రహము గురుడు.  ఇది మన కంటికి కనిపిస్తుంది. మన సౌర కుటుంబంలో ఇతర గ్రహాల కన్నా గురు గ్రహం పెద్దది మరియు బరువైనది!</p>';
@@ -180,13 +182,16 @@
                     myhtml = myhtml + '<p class="c-white">కొనసాగడానికి X క్లిక్ చేయండి.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue4.html', '_self');
             }
         });
