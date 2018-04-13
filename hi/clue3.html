@@ -127,8 +127,10 @@
     var mytube = 'h';
     var qid = 3;
     localStorage.setItem("planet-score3", '0');
+    var lng = 'en';
     $(function() {
         planet.readData();
+        planet.addQuestion('इस भीमकाय गैसीय ग्रह का गर्भ ठोस नहीं है| इसके वायुमंडल में ‘ग्रेट रेड स्पॉट’ (विशाल लाल धब्बा) नामक एक तूफ़ान है| हाइड्रोजन (H) इकट्ठा करने के लिए इस ग्रह पर जाइए|');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -154,7 +156,7 @@
                     $('.popup-small-head').html('गलत जवाब|');
                     $('.popup-small-content').html('<p>यह दूसरा संकेत देखिए|<br>यह हमारे सौर मंडल का सबसे बड़ा और भारी ग्रह है| फिर से कोशिश कीजिए|</p><p class="c-white">आगे जाने के लिए X पर क्लिक करें।</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('बहुत खूब!');
                     myhtml = '<p>बृहस्पति सूर्य से पांचवा ग्रह है| इसे नंगी आंखों से देखा जा सकता है| यह हमारे सौर मंडल के सभी ग्रहों से ज्यादा बड़ा और भारी है!</p>';
@@ -162,7 +164,7 @@
                     myhtml = myhtml + '<p class="c-white">आगे जाने के लिए X पर क्लिक करें।</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -172,7 +174,7 @@
                     myhtml = myhtml + '<p class="c-white">आगे जाने के लिए X पर क्लिक करें।</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('बहुत खूब!');
                     myhtml = '<p>बृहस्पति सूर्य से पांचवा ग्रह है| इसे नंगी आंखों से देखा जा सकता है| यह हमारे सौर मंडल के सभी ग्रहों से ज्यादा बड़ा और भारी है!</p>';
@@ -180,13 +182,16 @@
                     myhtml = myhtml + '<p class="c-white">आगे जाने के लिए X पर क्लिक करें।</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue4.html', '_self');
             }
         });
