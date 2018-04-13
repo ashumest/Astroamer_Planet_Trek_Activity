@@ -126,8 +126,10 @@
     var mytube = 'ch4';
     localStorage.setItem("planet-score6", '0');
     var qid = 6;
+    var lng = 'en';
     $(function() {
         planet.readData();
+        planet.addQuestion('With its axis tilted by 97 degrees, this planet almosts rolls on its side in its orbit. Visit this planet to collect Methane (CH4).');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('That’s not correct.');
                     $('.popup-small-content').html('<p>Here’s another clue.<br>This planet has 27 moons and 13 rings, but you can barely see this planet with the naked eye.<br>Try again.</p><p class="c-white">Click X to continue.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>Uranus is the seventh planet in our solar system. This planet has 27 moons and 13 rings.<br>It is visible to the naked eye but is very faint.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>Uranus is the seventh planet in our solar system. This planet has 27 moons and 13 rings.<br>It is visible to the naked eye but is very faint.</p>';
@@ -179,19 +181,22 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue7.html', '_self');
             }
         });
     });
 
-    function updateScore() {
+    function getScore() {
         localStorage.setItem("planet-score6", '1');
         $('.capAnim').addClass('cap-fix');
         $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');

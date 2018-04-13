@@ -126,8 +126,10 @@
     var mytube = 'co2';
     localStorage.setItem("planet-score9", '0');
     var qid = 9;
+     var lng = 'en';
     $(function() {
         planet.readData();
+        planet.addQuestion('The rotation period of this planet is longer than its revolution period. It is covered in a cloud and is the hottest planet. Visit this planet to collect Carbon Dioxide (CO2).');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('That’s not correct.');
                     $('.popup-small-content').html('<p>Here’s another clue.<br>Seen only at dawn or evening, this planet is also called the Morning Star or the Evening Star.</p><p class="c-white">Click X to continue.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>The thick cloud cover over Venus traps heat and makes it the hottest planet even if it is the second planet from the Sun. Since Venus is an inner planet, you can see its phases just like those of the Moon.</p><p>Seen only at dawn or evening, this planet is also called the Morning Star or the Evening Star.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>The thick cloud cover over Venus traps heat and makes it the hottest planet even if it is the second planet from the Sun. Since Venus is an inner planet, you can see its phases just like those of the Moon.</p><p>Seen only at dawn or evening, this planet is also called the Morning Star or the Evening Star.</p>';
@@ -179,19 +181,22 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue10.html', '_self');
             }
         });
     });
 
-    function updateScore() {
+    function getScore() {
         localStorage.setItem("planet-score9", '1');
         $('.capAnim').addClass('cap-fix');
         $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');

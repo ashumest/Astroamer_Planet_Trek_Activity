@@ -126,8 +126,10 @@
     var mytube = 'he';
     localStorage.setItem("planet-score4", '0');
     var qid = 4;
+    var lng = 'en';
     $(function() {
         planet.readData();
+        planet.addQuestion('You will need a telescope to see this planet, which is made up of frozen gases. Visit this planet to collect Helium (He).');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('That’s not correct.');
                     $('.popup-small-content').html('<p>Here’s another clue.<br>This cold blue planet has the strongest winds in the solar system.</p><p class="c-white">Click X to continue.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('Well done!');
                     myhtml = '<p>Neptune is the eighth planet from the Sun. This blue planet is visible only through a telescope. It is the second coldest planet, but it has stronger winds than any other planet.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('Well done!');
                     myhtml = '<p>Neptune is the eighth planet from the Sun. This blue planet is visible only through a telescope. It is the second coldest planet, but it has stronger winds than any other planet.</p>';
@@ -179,19 +181,22 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue5.html', '_self');
             }
         });
     });
 
-    function updateScore() {
+    function getScore() {
         localStorage.setItem("planet-score4", '1');
         $('.capAnim').addClass('cap-fix');
         $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');

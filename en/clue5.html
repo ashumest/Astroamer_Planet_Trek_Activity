@@ -126,8 +126,10 @@
     var mytube = 'na';
     localStorage.setItem("planet-score5", '0');
     var qid = 5;
+    var lng = 'en';
     $(function() {
         planet.readData();
+        planet.addQuestion('Although this is the smallest of all the planets, its density is the highest. Visit this planet to collect Sodium (Na).');
         $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('That’s not correct.');
                     $('.popup-small-content').html('<p>Here’s another clue.<br>This planet is close to the Sun and hence faster than any other planet.</p><p class="c-white">Click X to continue.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>Mercury is the innermost planet in our solar system, which is why it revolves fastest among all planets. It is visible to the naked eye, but because it is always close to Sun, it is visible only just before sunrise or just after sunset. It is the smallest planet in the solar system and has least mass among all planets.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('That’s correct.');
                     myhtml = '<p>Mercury is the innermost planet in our solar system, which is why it revolves fastest among all planets. It is visible to the naked eye, but because it is always close to Sun, it is visible only just before sunrise or just after sunset. It is the smallest planet in the solar system and has least mass among all planets.</p>';
@@ -179,19 +181,22 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
         $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue6.html', '_self');
             }
         });
     });
 
-    function updateScore() {
+    function getScore() {
         localStorage.setItem("planet-score5", '1');
         $('.capAnim').addClass('cap-fix');
         $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');

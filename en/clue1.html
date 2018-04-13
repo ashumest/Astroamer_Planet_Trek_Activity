@@ -126,9 +126,11 @@
     var mytube = 'n';
     var qid = 1;
     localStorage.setItem("planet-score1", '0');
-    $(function () {
+    var lng = 'en';
+    $(function() {
         planet.readData();
-        $('.submit-btn').click(function () {
+        planet.addQuestion('Abundant with water, nitrogen and oxygen, this planet is home to intelligent life. Visit this planet to collect Nitrogen (N).');
+        $('.submit-btn').click(function() {
             myTable = '';
             myTable = myTable + '<table width="100%" border="0" cellspacing="0" cellpadding="0" class="answerTable c-blue">';
             myTable = myTable + '<tr>';
@@ -153,7 +155,7 @@
                     $('.popup-small-head').html('That’s not correct.');
                     $('.popup-small-content').html('<p>Here’s another clue.<br>This planet has only one natural satellite.<br>Try again.</p><p class="c-white">Click X to continue.</p>');
                     $('.feedback-popup-small').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('Well done!');
                     myhtml = '<p>The Earth is the planet on which we live. It is the third planet from the Sun.</p>';
@@ -161,7 +163,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             } else {
                 if (curPlanet != answer) {
@@ -171,7 +173,7 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, false);
+                    planet.addAnswer(curPlanet, false, playattempt);
                 } else {
                     $('.popup-head').html('Well done!');
                     myhtml = '<p>The Earth is the planet on which we live. It is the third planet from the Sun.</p>';
@@ -179,19 +181,22 @@
                     myhtml = myhtml + '<p class="c-white">Click X to continue.</p>';
                     $('.popup-content').html(myhtml);
                     $('.feedback-popup').css('display', 'block');
-                    planet.addAnswer(curPlanet, true);
+                    planet.addAnswer(curPlanet, true, playattempt);
                 }
             }
             playattempt++;
         });
-        $('.next-btn').click(function () {
+        $('.next-btn').click(function() {
             if ($(this).css('opacity') == 1) {
+                myData.appData.attempt[qid - 1].clue_endTime = timeStamp();
+                myData.appData.attempt[qid - 1].createdAt = timeStamp();
+                planet.save();
                 window.open('clue2.html', '_self');
             }
         });
     });
 
-    function updateScore() {
+    function getScore() {
         localStorage.setItem("planet-score1", '1');
         $('.capAnim').addClass('cap-fix');
         $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');
