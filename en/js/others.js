@@ -34,7 +34,7 @@ $(function () {
             if (curPlanet != answer) {
                 $('#planet-' + oldPlanet).attr('src', 'common/PLANETS/' + oldPlanet + '.png');
             } else {
-                getScore();
+                updateScore();
                 $('.rules-btn1, .submit-btn').css('opacity', '0.5');
                 $('.allOut').css('display', 'block');
                 $('.next-btn').css('opacity', 1);
@@ -46,7 +46,7 @@ $(function () {
                 $('#tube-' + mytube).attr('src', 'common/TUBES/' + mytube + '.png');*/
                 $('.allOut').css('display', 'block');
             } else {
-                getScore();
+                updateScore();
             }
             $('.next-btn').css('opacity', 1);
             $('.next-btn').addClass('next-btn-roll');
