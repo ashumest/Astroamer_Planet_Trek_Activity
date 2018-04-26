@@ -104,7 +104,7 @@ var planet = {
 
         }
         planet.save();
-        planet.updateScore();
+        //planet.updateScore();
     },
     save: function () {
         localStorage.setItem("data", JSON.stringify(myData));
